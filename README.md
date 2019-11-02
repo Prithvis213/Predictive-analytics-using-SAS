@@ -9,7 +9,7 @@ Assignment 3 : Insurance Claims Dataset -> Weighted Least Squares Regression and
 
 Assignment 4 : Panel Data and Market Pioneer Analysis.
 
-Assignment 5 : Insurance Claims Dataset -> Weighted Least Squares Regression and Bass Model.
+Assignment 5 : Telecom Churn propensity prediction through Logistic Regression. 
 
 Assignment 6 : Panel Data and Market Pioneer Analysis. 
 
