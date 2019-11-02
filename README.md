@@ -5,7 +5,7 @@ Assignment 1 : Insurance Claims Dataset -> Inspected insurance dataset to derive
 
 Assignment 2 : Store Level Scanner Data Sales Prediction  -> Analyzed Spaghetti sauce store-level scanner dataset to identify various metrics affecting brand sales through SAS.  
 
-Assignment 3 : Insurance Claims Dataset -> Weighted Least Squares Regression and Bass Model.
+Assignment 3 : Weighted Least Squares Regression Model and Bass Model.
 
 Assignment 4 : Panel Data and Market Pioneer Analysis.
 
