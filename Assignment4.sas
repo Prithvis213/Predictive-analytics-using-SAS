@@ -133,6 +133,42 @@ ID CS_ID TS_ID;
 model lwage = age edu hr married salaried selfempl kid1 agesq/ rantwo BP2;
 run;
 
+/* Q2. I have provided a dataset PIMS.dat which has data on industrial goods manufacturers. The variables in the data are in the following order. These variables and definitions are given in the paper by Robinson and Fornell (1985) on pioneering advantages (see Tables 1, 2 and 3). As in the paper by Robinson and Fornell (1985), we will estimate a simultaneous system of five equations. While the paper considered consumer goods industries, we are interested in replicating the analysis for industrial goods industries.
+MS	Relative market share
+QUAL	Relative quality
+PRICE	Relative price
+PLB	Product line width
+DC	Relative direct costs
+PION	Whether a firm is a pioneer (1) or not (0)
+EF	Whether a firm is an early follower (1) or not (0)
+PHPF	Pioneer *high purchase frequency
+PLPF	Pioneer *low purchase frequency
+PSC	Pioneer *seasonal product change
+PAPC	Pioneer *annual/periodic product change
+NCOMP	Number of competitors
+MKTEXP	Relative marketing expenditures (similar to ‘relative advertising and promotion’)
+TYRP	Twenty year pioneer
+PNP	Percentage of new products
+CUSTTYP	Relative customer type
+NCUST	Relative Number of customers
+CUSTSIZE	Relative customer size
+PENEW	Plant and equipment newness
+CAP	Capacity utilization
+RBVI	Relative backward vertical integration
+EMPRODY	Employee productivity
+UNION	Percentage of employees unionized
+
+Please estimate a 2SLS model with the following five equations.
+model MS=qual plb price pion ef phpf plpf psc papc ncomp mktexp
+model Qual=price dc pion ef tyrp mktexp pnp
+model PLB=dc pion tyrp ef pnp custtyp ncust custsize
+model Price=ms qual dc pion ef tyrp mktexp pnp
+model DC=ms qual pion ef tyrp penew cap rbvi emprody union
+1.	Run the 2SLS model using SAS (PROC SYSLIN) and estimate the effect of pioneering on market share. Be sure to consider the direct effects as well as the indirect effects. (read the paper on pioneering advantages for this interpretation).
+
+2.	Run a simple regression model of market share as given in the first equation. What is the effect of pioneering on market share using this simple model? How does this effect change across different models.
+ */
+
 infile "H:\pims.csv" DLM=','firstobs=2;
 input ms	qual price plb dc pion ef phpf plpf	psc	papc ncomp mktexp tyrp pnp custtyp ncust custsize penew	cap	rbvi emprody union;
 run;
