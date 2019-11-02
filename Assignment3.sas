@@ -1,5 +1,6 @@
 libname cc 'H:\';
-/*Question1*/
+/*Question1 :	Use the data in vacation.dat and run a regression with Miles (miles travelled) 
+as the dependent variable and income, age (average age of adult members), and kids as the independent variables. */
 data vac;
 set cc.vacation19;
 run;
@@ -29,7 +30,7 @@ run;
 proc univariate data=vac1 noprint;
    histogram;run;
 
- 
+/* 1 a.	Run a regression model and interpret the coefficients. Comment on the model fit. */ 
 /* Regression */
 
 /* Checking for Influence observations and Multi-Collinearity */ 
@@ -43,6 +44,7 @@ proc reg data=vac1;
 model miles= income age kids1 kids2 kids3 kids4;
 run;
 
+/* 1 b.	Check whether there is heteroscedasticity in the model using White test.*/
 /* Check for Heteroskedasticity */
 proc model data=vac1;
 parms b0 b1 b2 b3 b4 b5 b6;
@@ -50,6 +52,8 @@ miles = b0 + b1*income + b2*age + b3*kids1 + b4*kids2 + b5*kids3 + b6*kids4;
 fit miles/white out=res1 outresid; 
 run;
 
+/* 1 c. Run a weighted Least squares (WLS) regression. Discuss your results in a paragraph. 
+(Comment on model fit, significance of coefficients, and the effect of doing WLS.)*/
 /* Weighted Least Squares */
 proc model data=vac1;
 parms b0 b1 b2 b3 b4 b5 b6;
@@ -99,6 +103,11 @@ wmiles = b6 + b1*wage + b2*wkids1 + b3*wkids2 + b4*wkids3 + b5*wkids4 + b0*winco
 fit wmiles / white ;run;
 
 /*Question2*/
+/* I have provided the Sales of a durable good:
+1.	Using SAS and regression, estimate the Bass model. Save the regression parameters using option OUTEST. Find p, q, and M and compute peak sales and the time when that peak will occur.
+2.	Predict sales in each period using only the model parameters p, q, and M and the fact that sales at time period 0=0 .
+3.	Plot a graph of actual versus predicted sales. 
+*/
 
 data sal;
 input week sales;
@@ -141,6 +150,22 @@ proc print data=new2; var week sales Pdload;
 run;
 
 /*Question3*/
+/* A conjoint study was undertaken by a detergent manufacturer. The attributes that were considered were 
+Brand (Complete, Smile, Wave)
+Scent (fresh, lemon, Unscented)
+Whether there was a softener or not (Y, N)
+Size of packet (32, 48, 64)
+Price (2.99, 3.99, 4.99)
+
+The preferences of five respondents s1, s2, s3, s4, s5 were obtained for some combination of attributes on a 1-9 point scale
+with 9 indicating a higher preference.
+
+1.	Find the importance weights and part-worths for each respondent using PROC TRANSREG.
+2.	Predict the choice (using logit rule) for each respondent (s1-s5) for each of 
+   the following combinations using your estimates in question 1 above.
+*/ 
+
+
 libname w3 'H:\Ass3';
 DATA cj;
 INPUT brand	$ scent $ soft $ oz pr s1 s2 s3 s4 s5;
