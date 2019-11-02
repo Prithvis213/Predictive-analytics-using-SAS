@@ -13,3 +13,6 @@ Assignment 5 : Telecom Churn propensity prediction through Logistic Regression.
 
 Assignment 6 : Credit Card data -> Tobit model, selection model and survival analysis.
 
+Project - Spaghetti sauce store scanner dataset: 
+•	Analyzed Spaghetti sauce store-level scanner dataset to identify various metrics affecting brand sales through SAS 
+•	Executed regression models to obtain desired sales forecast resulting in a market share gain by 20% for brand Classico
