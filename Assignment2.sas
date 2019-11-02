@@ -1,3 +1,8 @@
+/*Using the store level scanner data provided to you in class (filename will be similar to spagsauc_groc_1114_1165). You need to link UPC from this file with information in the prod_sauce.xls file to get brand names etc.
+Prepare a report that summarizes the data. At a minimum, it should answer the following questions.
+Summarize data: No need for statistical testing for these questions.*/
+
+
 libname ss 'h:\';
 
 data spag;
@@ -25,7 +30,9 @@ PROC EXPORT data = spag_merge outfile = "'H:\spagsauc_merged.csv" dbms = dlm rep
 delimiter = ',';
 RUN;
 
-/*Q1*/
+/*Q1. What are the top 6 brands in the category in terms of dollar sales? 
+What are the market shares of the 6 brands (assuming there are only 6 brands in the market).*/
+
 proc means data = spag_merge sum; 
 class L5;
 var DOLLARS;
@@ -44,7 +51,7 @@ PROC EXPORT data = a2 outfile = "'H:\top_brands.csv" dbms = dlm replace ;
 delimiter = ',';
 RUN;
 
-/*Q2*/
+/*Q2. Which companies are the major players in the category? Which company owns which brands?*/
 proc means data = spag_merge sum; 
 class L4;
 var DOLLARS;
@@ -62,7 +69,7 @@ PROC EXPORT data = a3 outfile = "'H:\top_companies.csv" dbms = dlm replace ;
 delimiter = ',';
 RUN;
 
-/*Q3*/
+/*Q3. Create a 7th brand called “Other” that has all other brands that are not in the top 6.*/
 LIBNAME cc 'E:\Prithvi\';
 
 DATA cc.spagsauc_data_new(keep= IRI_KEY WEEK L1 L2 L3 L4 L5 VOL_EQ UNITS DOLLARS FEATURE DISP PR PRODUCT_TYPE FLAVOR_SCENT ADDITIVES TYPE_OF_ITALIAN_SAUCE STYLE CONSISTENCY HEAT_LEVEL UPC OU EST_ACV MARKET_NAME OPEN ClSD MSK_NAME);
@@ -129,14 +136,14 @@ proc sort data = a4; by descending Dollars; run;
 
 proc print data = a4;run;
 
-/*Q4*/
+/*Q4. Find average prices, display, features of each of the 7 brands.*/
 proc sql;
 select L5, avg(dollars/(units*vol_eq)) as AvgPrice ,sum(disp*units)/sum(units) as AvgDisplay,sum(feature*units)/sum(units) as AvgFeature
 from cc.spagsauc_data_new
 group by L5;
 quit;
 
-/*Q5*/
+/*Q5. What are the top 5 regions in terms of dollar sales?*/
 proc means data =cc.spagsauc_data_new;
 class MARKET_NAME;
 var Dollars;
@@ -147,7 +154,7 @@ proc sort data = a5; by descending Dollars; run;
 
 proc print data = a5;run;
 
-/*Q6*/
+/*Q6. What are the top 10 store chains that sell a lot of your category in terms of dollar sales?*/
 proc means data =cc.spagsauc_data_new;
 class Msk_Name;
 var Dollars;
@@ -158,7 +165,8 @@ proc sort data = q6; by descending Dollars; run;
 
 proc print data = q6;run;
 
-/*Q7*/
+/*Q7. 7.	What is the average price per unit of 7 brands by week? 
+Plot the average price by week (I wish to see a line plot of price by week). Comment on your findings.*/
 PROC SQL;
 CREATE TABLE q7 as
 SELECT L5,WEEK,avg((DOLLARS/UNITS)/VOL_EQ)as per_unit_price
@@ -170,7 +178,8 @@ SERIES X = Week Y = per_unit_price / group=L5;
 TITLE 'Average Unit Price By Week By Brand';
 RUN;
 
-/*Q9*/
+/*Q9. Do large stores (top 3 stores) have higher average price per unit than small stores 
+(stores ranked 8-10) for brand 1 (the top brand in Q1). Test and report your results and comments.*/
 proc sql; 
 create table top_store as select 
 IRI_KEY, SUM(DOLLARS) as total_sales from cc.spagsauc_data_new
@@ -206,7 +215,8 @@ price_per_unit = ((DOLLARS/UNITS)/VOL_EQ);
 run; 
 
 proc print data = cc.spagsauc_data_new(obs=10); run;
-/*Q10*/
+
+/*Q10. Develop three additional hypotheses linking useful variables to dollar sales, test them and report your findings.*/
  proc sql; 
 create table prego_reg as select *
  from spagsauc_data_new
@@ -226,7 +236,17 @@ proc print data = prego_reg(obs=100);run;
 proc ttest data = prego_spag ; class TYPE; var DOLLARS;run;
 proc ttest data = prego_reg; class DISP; var DOLLARS;run;
 
-/*Q11*/
+/*Q11. For the top brand: run a regression model with weekly dollar sales as dependent variable. Use average weekly price per unit, average display, average feature, and other useful variables in your regression and answer the following questions:
+a.	What is the R-sq and adj R-sq of the model?
+b.	Which coefficients are significant?
+c.	Which variables are most important in explaining sales?
+d.	Interpret the meaning of the price coefficient? What is the price elasticity?
+e.	Interpret the meaning of the display coefficient?
+f.	Test whether there is an interaction between display, feature and price. Comment on your findings.
+g.	Test whether the effect of price is non-linear. Comment on your findings. 
+h.	Test using VIF and COLLIN whether there is multicollinearity in the model? Comment on your findings.
+i.	Test for presence of heteroscedasticity using White test. Do A WLS if needed. Comment on your findings.
+*/
 
 proc reg data = cc.spagsauc_data_new;
 model DOLLARS = price_per_unit DISP FEATURE
