@@ -11,5 +11,5 @@ Assignment 4 : Panel Data and Market Pioneer Analysis.
 
 Assignment 5 : Telecom Churn propensity prediction through Logistic Regression. 
 
-Assignment 6 : Panel Data and Market Pioneer Analysis. 
+Assignment 6 : Credit Card data -> Tobit model, selection model and survival analysis.
 
