@@ -1,3 +1,21 @@
+/* Q1. I have given you a panel data on wages (Wage data) in which N=334, T=3 years (1984-1986).
+For each ID, the data is sorted by year. You need to create the ID and year variables.
+Columns	Variable name	Description
+C1	Edu	Education in years
+C2	Hr	Work hours per year
+C3	Wage	Dollar wage per hour
+C4	Famearn	Family earnings in dollars per year
+C5	Self	Dummy for self-employed
+C6	Sal	Dummy for salaried
+C7	Mar	Dummy for married
+C8	Numkid	Number of children
+C9	Age	
+C10	unemp	Local unemployment percentage
+
+We need to do a regression to understand the determinants of “natural log (wages)” that is {ln(wage)}.
+We need to understand the effect of the following variables: age, edu, numkid, hr, mar, sal, self, unemp.
+*/ 
+
 data a1;
 infile 'h:\WAGE.dat' firstobs=2;
 input edu hr wage famearn selfempl salaried  married numkid age locunemp;run;
@@ -46,7 +64,7 @@ run;
 proc print data = a2;run;
 
 proc corr data=a2;run;
-/*Q1.1*/
+/*Q1.1	Find the best linear regression model. Check for multicollinearity and take appropriate actions. */
 proc reg data = a2;
 model lwage = age edu numkid hr married salaried selfempl locunemp
    / tol vif collin;
@@ -77,7 +95,7 @@ lwage = b0 + b1*age + b2*edu + b3*hr + b4*married + b5*salaried + b6*selfempl + 
 fit lwage/white out=res1 outresid; 
 run;
 
-/*Q1.2*/
+/*Q1.2 Develop a model to test if there are nonlinear effects for some variables. Which variables have non-linear effect on ln(wages).*/
 data a2; 
 SET a2;
 agesq = age*age;  
@@ -89,7 +107,12 @@ proc reg data = a2;
 model lwage = age edu hr married salaried selfempl kid1 agesq 
    / tol vif collin;
    run;
-/*Q1.3*/
+   
+/*Q1.3 Using the same model, run fixed effects models and random effects models
+i.e., FIXEDONE, FIXEDTWO, RANONE, RANTWO.
+Create a table of coeffic
+ients side-by side with significant coefficients shown in bold (you may do this in Excel). 
+*/
 proc panel data=a2;   
 ID CS_ID TS_ID; 
 model lwage = age edu hr married salaried selfempl kid1 agesq/ fixone BP; 
